@@ -1,0 +1,23 @@
+{
+  "app": "python app.py",
+  "context": {
+    "name": "deal-finder",
+    "env": "prod",
+    "account_suffix": "abc123",
+    "region": "us-east-1",
+    "vpc_cidr": "10.0.0.0/16",
+    "app_image": "REPLACE_WITH_IMAGE",
+    "app_port": 8080,
+    "health_check_path": "/health",
+    "task_cpu": 512,
+    "task_memory": 1024,
+    "desired_count": 2,
+    "pg_version": "16.3",
+    "pg_instance_class": "t3.medium",
+    "db_name": "deals",
+    "db_username": "appuser",
+    "db_password": "REPLACE_ME_SECURELY",
+    "redis_version": "7.1",
+    "redis_node_type": "cache.t3.small"
+  }
+}
