@@ -34,6 +34,14 @@ cdk deploy \
   -c db_password=REPLACE_ME_SECURELY
 ```
 
+## Quick Deploy Script (Windows PowerShell)
+- Ensures Docker is running, then deploys from the `cdk/` dir.
+- Pass any CDK context or flags after the script path.
+
+```powershell
+.\u005cscripts\cdk-deploy.ps1 -c app_image=123456789012.dkr.ecr.us-east-1.amazonaws.com/deal-finder:latest -c db_password=REPLACE_ME_SECURELY
+```
+
 ## Context keys (mirrors variables.tf)
 - name, env, account_suffix, region, vpc_cidr
 - app_image, app_port, health_check_path, task_cpu, task_memory, desired_count
