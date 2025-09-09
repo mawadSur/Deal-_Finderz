@@ -8,6 +8,7 @@ Note: Enabling PostGIS requires running `CREATE EXTENSION postgis;` against the 
 - AWS credentials configured (e.g., `aws configure`)
 - Python 3.9+
 - AWS CDK v2 CLI (`npm i -g aws-cdk`)
+- Docker installed (for bundling the PostGIS Lambda dependencies)
 
 ## Setup
 ```powershell
@@ -45,4 +46,4 @@ cdk deploy \
 ## Notes
 - VPC uses 2 AZs and 1 NAT (cost-optimized). Adjust in `deal_finder_stack.py` if needed.
 - ECS task role gets S3 access to the raw bucket only.
-- For PostGIS automation, I can add a Lambda custom resource to run `CREATE EXTENSION postgis;` via psycopg2.
+- PostGIS automation: a Lambda-backed custom resource runs `CREATE EXTENSION IF NOT EXISTS postgis;` using pg8000 within the VPC. CDK bundles the dependency with Docker.

@@ -13,6 +13,8 @@ from aws_cdk import (
     aws_logs as logs,
     aws_rds as rds,
     aws_elasticache as elasticache,
+    aws_lambda as _lambda,
+    custom_resources as cr,
 )
 from constructs import Construct
 
@@ -237,6 +239,65 @@ class DealFinderStack(Stack):
         )
 
         # --------------------------
+        # Lambda-backed Custom Resource to enable PostGIS
+        # --------------------------
+        # Security group for Lambda to reach RDS
+        sg_lambda = ec2.SecurityGroup(
+            self,
+            "LambdaSg",
+            vpc=vpc,
+            allow_all_outbound=True,
+            security_group_name=f"{name}-lambda-sg",
+        )
+        sg_rds.add_ingress_rule(sg_lambda, ec2.Port.tcp(5432), "Lambda to Postgres")
+
+        postgis_fn = _lambda.Function(
+            self,
+            "EnablePostGISFn",
+            runtime=_lambda.Runtime.PYTHON_3_11,
+            handler="index.handler",
+            code=_lambda.Code.from_asset(
+                path="cdk/lambda/postgis",
+                bundling=_lambda.BundlingOptions(
+                    image=_lambda.Runtime.PYTHON_3_11.bundling_image,
+                    command=[
+                        "bash",
+                        "-c",
+                        "pip install -r requirements.txt -t /asset-output && cp -au . /asset-output",
+                    ],
+                ),
+            ),
+            timeout=Duration.minutes(2),
+            vpc=vpc,
+            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS),
+            security_groups=[sg_lambda],
+            environment={
+                "DB_HOST": db.instance_endpoint.hostname,
+                "DB_PORT": "5432",
+                "DB_NAME": db_name,
+                "DB_USER": db_username,
+                "DB_PASSWORD": db_password,
+            },
+        )
+
+        postgis_provider = cr.Provider(
+            self,
+            "PostgisProvider",
+            on_event_handler=postgis_fn,
+        )
+
+        postgis_cr = cr.CustomResource(
+            self,
+            "EnablePostGIS",
+            service_token=postgis_provider.service_token,
+            properties={
+                "Action": "CreateExtension",
+                "Extension": "postgis",
+            },
+        )
+        postgis_cr.node.add_dependency(db)
+
+        # --------------------------
         # Outputs
         # --------------------------
         CfnOutput(self, "alb_dns_name", value=alb.load_balancer_dns_name)
@@ -244,4 +305,3 @@ class DealFinderStack(Stack):
         CfnOutput(self, "rds_endpoint", value=db.instance_endpoint.hostname)
         CfnOutput(self, "redis_primary", value=redis.attr_primary_end_point_address)
         CfnOutput(self, "s3_raw_bucket_name", value=bucket.bucket_name)
-
