@@ -291,8 +291,9 @@ class DealFinderStack(Stack):
             "EnablePostGIS",
             service_token=postgis_provider.service_token,
             properties={
-                "Action": "CreateExtension",
+                "Action": "CreateExtensionAndMigrate",
                 "Extension": "postgis",
+                "RunMigrations": True,
             },
         )
         postgis_cr.node.add_dependency(db)
