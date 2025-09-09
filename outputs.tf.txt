@@ -1,0 +1,5 @@
+output "alb_dns_name"       { value = aws_lb.app.dns_name }
+output "service_url_http"   { value = "http://${aws_lb.app.dns_name}" }
+output "rds_endpoint"       { value = aws_db_instance.pg.address }
+output "redis_primary"      { value = aws_elasticache_replication_group.redis.primary_endpoint_address }
+output "s3_raw_bucket_name" { value = aws_s3_bucket.raw.bucket }

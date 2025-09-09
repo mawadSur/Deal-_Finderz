@@ -1,0 +1,22 @@
+variable "name"            { type = string  default = "deal-finder" }
+variable "env"             { type = string  default = "prod" }
+variable "account_suffix"  { type = string  description = "3–8 chars to make bucket globally unique" }
+variable "region"          { type = string  default = "us-east-1" }
+
+variable "vpc_cidr"        { type = string  default = "10.0.0.0/16" }
+
+variable "app_image"       { type = string  description = "Container image (ECR URI or DockerHub ref)" }
+variable "app_port"        { type = number  default = 8080 }
+variable "health_check_path" { type = string default = "/health" }
+variable "task_cpu"        { type = number  default = 512 }
+variable "task_memory"     { type = number  default = 1024 }
+variable "desired_count"   { type = number  default = 2 }
+
+variable "pg_version"        { type = string  default = "16.3" }
+variable "pg_instance_class" { type = string  default = "db.t3.medium" }
+variable "db_name"           { type = string  default = "deals" }
+variable "db_username"       { type = string }
+variable "db_password"       { type = string  sensitive = true }
+
+variable "redis_version"     { type = string  default = "7.1" }
+variable "redis_node_type"   { type = string  default = "cache.t3.small" }

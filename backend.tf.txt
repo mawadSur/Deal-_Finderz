@@ -1,0 +1,9 @@
+terraform {
+  backend "s3" {
+    bucket         = "<YOUR-TF-STATE-BUCKET>"   # e.g. sur-tf-state
+    key            = "deal-finder/${env}/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "<YOUR-LOCK-TABLE>"        # e.g. sur-tf-locks
+    encrypt        = true
+  }
+}
