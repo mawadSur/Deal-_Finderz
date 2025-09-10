@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deal Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Maps will be loaded dynamically to avoid API key issues -->
+    <script>
+        // Load Google Maps without API key for basic functionality
+        window.initMap = function() {
+            // This will be called when Google Maps loads
+        };
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
+    <style>
+        #map { height: 400px; }
+        .deal-card { margin-bottom: 1rem; }
+        .filters { background: #f8f9fa; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+        .stats { background: #e9ecef; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+        .card-img-top { position: relative; }
+        .card-img-top .btn { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <header class="my-4">
+            <h1 class="text-center">🏠 Deal Finder</h1>
+            <p class="text-center text-muted">Find the best real estate deals with Zillow cross-referencing</p>
+        </header>
+
+        <!-- Statistics -->
+        <div class="stats row" id="stats">
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title" id="total-deals">0</h5>
+                        <p class="card-text">Total Deals</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title" id="recent-deals">0</h5>
+                        <p class="card-text">Recent Deals (7d)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title" id="matched-deals">0</h5>
+                        <p class="card-text">Zillow Matches</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title" id="avg-score">0.0</h5>
+                        <p class="card-text">Avg Match Score</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Filters -->
+            <div class="col-md-4">
+                <div class="filters">
+                    <h4>🔍 Search Filters</h4>
+
+                    <!-- Location Filters -->
+                    <div class="mb-3">
+                        <h6>📍 Location</h6>
+                        <div class="mb-2">
+                            <input type="text" class="form-control form-control-sm" id="city" placeholder="City">
+                        </div>
+                        <div class="mb-2">
+                            <input type="text" class="form-control form-control-sm" id="state" placeholder="State" value="GA">
+                        </div>
+                        <div class="mb-2">
+                            <input type="text" class="form-control form-control-sm" id="county" placeholder="County">
+                        </div>
+                        <div class="mb-2">
+                            <label for="radius" class="form-label small">Search Radius (km)</label>
+                            <input type="number" class="form-control form-control-sm" id="radius" value="5" min="1" max="50">
+                        </div>
+                    </div>
+
+                    <!-- Price Filters -->
+                    <div class="mb-3">
+                        <h6>💰 Price Range</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="min-price" placeholder="Min $">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="max-price" placeholder="Max $">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property Category & Type -->
+                    <div class="mb-3">
+                        <h6>🏢 Property Category</h6>
+                        <div class="mb-2">
+                            <select class="form-control form-control-sm" id="property-category" onchange="updatePropertyTypes()">
+                                <option value="">All Categories</option>
+                                <option value="residential">🏠 Residential</option>
+                                <option value="commercial">🏢 Commercial</option>
+                                <option value="land">🌾 Land/Agricultural</option>
+                            </select>
+                        </div>
+
+                        <h6>🏠 Property Type</h6>
+                        <div class="mb-2">
+                            <select class="form-control form-control-sm" id="property-type">
+                                <option value="">All Property Types</option>
+                                <!-- Residential -->
+                                <option value="house">🏠 House</option>
+                                <option value="condo">🏢 Condo</option>
+                                <option value="apartment">🏬 Apartment</option>
+                                <option value="townhouse">🏘️ Townhouse</option>
+                                <!-- Commercial -->
+                                <option value="nnn_lease">🏪 NNN Lease</option>
+                                <option value="office_building">🏢 Office Building</option>
+                                <option value="retail_space">🛍️ Retail Space</option>
+                                <option value="industrial">🏭 Industrial</option>
+                                <!-- Land -->
+                                <option value="farm">🚜 Farm</option>
+                                <option value="ranch">🐎 Ranch</option>
+                                <option value="empty_land">🌱 Empty Land</option>
+                                <option value="timberland">🌲 Timberland</option>
+                            </select>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="min-bedrooms" placeholder="Min Beds">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="max-bedrooms" placeholder="Max Beds">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="min-bathrooms" placeholder="Min Baths">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="max-bathrooms" placeholder="Max Baths">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="min-sqft" placeholder="Min SqFt">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="max-sqft" placeholder="Max SqFt">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Amenities -->
+                    <div class="mb-3">
+                        <h6>✨ Amenities</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="has-pool">
+                            <label class="form-check-label small" for="has-pool">Pool</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="has-gym">
+                            <label class="form-check-label small" for="has-gym">Gym</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="pet-friendly">
+                            <label class="form-check-label small" for="pet-friendly">Pet Friendly</label>
+                        </div>
+                    </div>
+
+                    <!-- Risk Assessment -->
+                    <div class="mb-3">
+                        <h6>⚠️ Risk Assessment</h6>
+                        <div class="mb-2">
+                            <select class="form-control form-control-sm" id="crime-rate">
+                                <option value="">Any Crime Rate</option>
+                                <option value="low">Low Crime</option>
+                                <option value="medium">Medium Crime</option>
+                                <option value="high">High Crime</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <select class="form-control form-control-sm" id="flood-zone">
+                                <option value="">Any Flood Zone</option>
+                                <option value="X">Zone X (Low Risk)</option>
+                                <option value="AE">Zone AE (High Risk)</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="min-school-rating" class="form-label small">Min School Rating</label>
+                            <input type="number" class="form-control form-control-sm" id="min-school-rating" min="0" max="10" step="0.1">
+                        </div>
+                        <div class="mb-2">
+                            <select class="form-control form-control-sm" id="sewage-system">
+                                <option value="">Any Sewage System</option>
+                                <option value="municipal">Municipal</option>
+                                <option value="septic">Septic</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Data Source & Quality -->
+                    <div class="mb-3">
+                        <h6>📊 Data Quality</h6>
+                        <div class="mb-2">
+                            <select class="form-control form-control-sm" id="source">
+                                <option value="">All Sources</option>
+                                <option value="mls">MLS</option>
+                                <option value="zillow">Zillow</option>
+                                <option value="realtor">Realtor</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label for="min-score" class="form-label small">Min Zillow Match Score</label>
+                            <input type="range" class="form-range" id="min-score" min="0" max="1" step="0.1" value="0.5">
+                            <output id="score-output" class="small">0.5</output>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary w-100" onclick="applyFilters()">🔍 Apply Filters</button>
+                    <button class="btn btn-secondary w-100 mt-2" onclick="clearFilters()">🗑️ Clear All</button>
+                </div>
+                
+                <!-- Map -->
+                <div id="map"></div>
+            </div>
+            
+            <!-- Results -->
+            <div class="col-md-8">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4>Deals (<span id="result-count">0</span>)</h4>
+                    <button class="btn btn-outline-primary" onclick="loadDeals()">Refresh</button>
+                </div>
+                
+                <div id="deals-container">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deal Detail Modal -->
+    <div class="modal fade" id="dealModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dealModalTitle">Deal Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="dealModalBody">
+                    <!-- Deal details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Gallery Modal -->
+    <div class="modal fade" id="imageGalleryModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageGalleryTitle">Property Images</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="imageGallery" class="row">
+                        <!-- Images will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let map;
+        let currentLat = 33.7490; // Default to Atlanta, GA
+        let currentLng = -84.3880;
+        let markers = [];
+        let infoWindow;
+
+        // Property type options for each category
+        const propertyTypes = {
+            residential: [
+                { value: 'house', text: '🏠 House' },
+                { value: 'condo', text: '🏢 Condo' },
+                { value: 'apartment', text: '🏬 Apartment' },
+                { value: 'townhouse', text: '🏘️ Townhouse' }
+            ],
+            commercial: [
+                { value: 'nnn_lease', text: '🏪 NNN Lease' },
+                { value: 'office_building', text: '🏢 Office Building' },
+                { value: 'retail_space', text: '🛍️ Retail Space' },
+                { value: 'industrial', text: '🏭 Industrial' }
+            ],
+            land: [
+                { value: 'farm', text: '🚜 Farm' },
+                { value: 'ranch', text: '🐎 Ranch' },
+                { value: 'empty_land', text: '🌱 Empty Land' },
+                { value: 'timberland', text: '🌲 Timberland' }
+            ]
+        };
+
+        // Update property types based on selected category
+        function updatePropertyTypes() {
+            const categorySelect = document.getElementById('property-category');
+            const typeSelect = document.getElementById('property-type');
+            const selectedCategory = categorySelect.value;
+
+            // Clear current options
+            typeSelect.innerHTML = '<option value="">All Property Types</option>';
+
+            // Add new options based on category
+            if (selectedCategory && propertyTypes[selectedCategory]) {
+                propertyTypes[selectedCategory].forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type.value;
+                    option.textContent = type.text;
+                    typeSelect.appendChild(option);
+                });
+            } else {
+                // Show all types when no category is selected
+                Object.values(propertyTypes).flat().forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type.value;
+                    option.textContent = type.text;
+                    typeSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Initialize Google Map
+        function initMap() {
+            try {
+                const mapOptions = {
+                    center: { lat: currentLat, lng: currentLng },
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                infoWindow = new google.maps.InfoWindow();
+
+                // Add click listener
+                map.addListener('click', function(e) {
+                    currentLat = e.latLng.lat();
+                    currentLng = e.latLng.lng();
+                    updateLocationInput();
+                    applyFilters();
+                });
+
+                console.log('Google Maps initialized successfully');
+            } catch (error) {
+                console.error('Google Maps initialization failed:', error);
+                // Fallback: show message in map div
+                document.getElementById('map').innerHTML = `
+                    <div class="alert alert-warning m-3">
+                        <h6>Map Unavailable</h6>
+                        <p>Google Maps could not be loaded. Location-based filtering is disabled.</p>
+                        <small>Please check your internet connection or try refreshing the page.</small>
+                    </div>
+                `;
+            }
+        }
+
+        // Update location input field
+        function updateLocationInput() {
+            document.getElementById('location-search').value = `${currentLat.toFixed(4)}, ${currentLng.toFixed(4)}`;
+        }
+
+        // Load statistics
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                document.getElementById('total-deals').textContent = data.total_deals;
+                document.getElementById('recent-deals').textContent = data.recent_deals;
+                document.getElementById('matched-deals').textContent = data.matched_deals;
+                document.getElementById('avg-score').textContent = data.avg_match_score;
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        // Load deals
+        async function loadDeals() {
+            const container = document.getElementById('deals-container');
+            container.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+
+            try {
+                const params = new URLSearchParams();
+
+                // Location filters
+                const city = document.getElementById('city').value;
+                const state = document.getElementById('state').value;
+                const county = document.getElementById('county').value;
+                const radius = document.getElementById('radius').value;
+
+                if (city) params.append('city', city);
+                if (state) params.append('state', state);
+                if (county) params.append('county', county);
+                if (radius) params.append('radius', radius);
+
+                // Price filters
+                const minPrice = document.getElementById('min-price').value;
+                const maxPrice = document.getElementById('max-price').value;
+                if (minPrice) params.append('min_price', minPrice);
+                if (maxPrice) params.append('max_price', maxPrice);
+
+                // Property filters
+                const propertyCategory = document.getElementById('property-category').value;
+                const propertyType = document.getElementById('property-type').value;
+                const minBedrooms = document.getElementById('min-bedrooms').value;
+                const maxBedrooms = document.getElementById('max-bedrooms').value;
+                const minBathrooms = document.getElementById('min-bathrooms').value;
+                const maxBathrooms = document.getElementById('max-bathrooms').value;
+                const minSqft = document.getElementById('min-sqft').value;
+                const maxSqft = document.getElementById('max-sqft').value;
+
+                if (propertyCategory) params.append('property_category', propertyCategory);
+                if (propertyType) params.append('property_type', propertyType);
+                if (minBedrooms) params.append('min_bedrooms', minBedrooms);
+                if (maxBedrooms) params.append('max_bedrooms', maxBedrooms);
+                if (minBathrooms) params.append('min_bathrooms', minBathrooms);
+                if (maxBathrooms) params.append('max_bathrooms', maxBathrooms);
+                if (minSqft) params.append('min_sqft', minSqft);
+                if (maxSqft) params.append('max_sqft', maxSqft);
+
+                // Amenities
+                const hasPool = document.getElementById('has-pool').checked;
+                const hasGym = document.getElementById('has-gym').checked;
+                const petFriendly = document.getElementById('pet-friendly').checked;
+
+                if (hasPool) params.append('has_pool', 'true');
+                if (hasGym) params.append('has_gym', 'true');
+                if (petFriendly) params.append('pet_friendly', 'true');
+
+                // Risk filters
+                const crimeRate = document.getElementById('crime-rate').value;
+                const floodZone = document.getElementById('flood-zone').value;
+                const minSchoolRating = document.getElementById('min-school-rating').value;
+                const sewageSystem = document.getElementById('sewage-system').value;
+
+                if (crimeRate) params.append('crime_rate', crimeRate);
+                if (floodZone) params.append('flood_zone', floodZone);
+                if (minSchoolRating) params.append('min_school_rating', minSchoolRating);
+                if (sewageSystem) params.append('sewage_system', sewageSystem);
+
+                // Data quality
+                const source = document.getElementById('source').value;
+                const minScore = document.getElementById('min-score').value;
+
+                if (source) params.append('source', source);
+                if (minScore) params.append('min_score', minScore);
+
+                // Always include location for spatial search
+                params.append('lat', currentLat);
+                params.append('lng', currentLng);
+
+                const response = await fetch(`/api/deals?${params}`);
+                const data = await response.json();
+
+                displayDeals(data.deals);
+                document.getElementById('result-count').textContent = data.count;
+
+                // Update map markers
+                updateMapMarkers(data.deals);
+
+            } catch (error) {
+                console.error('Error loading deals:', error);
+                container.innerHTML = '<div class="alert alert-danger">Error loading deals</div>';
+            }
+        }
+
+        // Display deals
+        function displayDeals(deals) {
+            const container = document.getElementById('deals-container');
+
+            if (deals.length === 0) {
+                container.innerHTML = '<div class="alert alert-info">No deals found matching your criteria</div>';
+                return;
+            }
+
+            const html = deals.map(deal => `
+                <div class="card deal-card">
+                    ${deal.images && deal.images.length > 0 ? `
+                        <div class="card-img-top position-relative">
+                            <img src="${deal.images[0]}" class="img-fluid" style="height: 200px; object-fit: cover;" alt="Property image">
+                            ${deal.images.length > 1 ? `
+                                <div class="position-absolute top-50 start-50 translate-middle">
+                                    <button class="btn btn-light btn-sm" onclick="showImageGallery(${deal.id}, ${JSON.stringify(deal.images).replace(/"/g, '"')})">
+                                        📸 ${deal.images.length} photos
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title">${deal.title}</h5>
+                                <p class="card-text text-muted mb-1">
+                                    📍 ${deal.city}, ${deal.state} ${deal.county ? `(${deal.county} County)` : ''}
+                                </p>
+                                <p class="card-text text-muted small">
+                                    ${deal.property_category === 'commercial' ?
+                                        `${deal.property_type.replace('_', ' ').toUpperCase()} • ${deal.square_feet?.toLocaleString()} sqft` :
+                                     deal.property_category === 'land' ?
+                                        `${deal.property_type.replace('_', ' ').toUpperCase()} • ${(deal.lot_size / 43560)?.toFixed(1)} acres` :
+                                        `${deal.property_type} • ${deal.bedrooms} bed • ${deal.bathrooms} bath • ${deal.square_feet?.toLocaleString()} sqft`}
+                                </p>
+                            </div>
+                            <span class="badge ${deal.property_category === 'commercial' ? 'bg-success' :
+                                               deal.property_category === 'land' ? 'bg-warning' : 'bg-primary'} fs-6">
+                                $${deal.price?.toLocaleString()}
+                            </span>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    ${deal.property_category === 'residential' ? `🏫 School: ${deal.school_rating}/10<br>` : ''}
+                                    🛡️ Crime: ${deal.crime_rate}<br>
+                                    🌊 Flood: ${deal.flood_zone}
+                                </small>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted">
+                                    ${deal.property_category === 'residential' ?
+                                        `${deal.has_pool ? '🏊 Pool • ' : ''}${deal.has_gym ? '💪 Gym • ' : ''}${deal.pet_friendly ? '🐕 Pet Friendly' : ''}` :
+                                     deal.property_category === 'commercial' ?
+                                        '🏢 Commercial Property' :
+                                        '🌾 Land/Agricultural Property'}
+                                </small>
+                            </div>
+                        </div>
+
+                        ${deal.zillow_id ? `
+                            <div class="alert alert-success mt-2 py-2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small>
+                                        <strong>Zillow Match:</strong> ${(deal.match_score * 100).toFixed(1)}% match
+                                        ${deal.distance_meters ? ` • ${(deal.distance_meters / 1000).toFixed(1)}km away` : ''}
+                                    </small>
+                                    ${deal.price_diff_percent ? `<span class="badge bg-${deal.price_diff_percent < 0 ? 'success' : 'warning'}">${deal.price_diff_percent > 0 ? '+' : ''}${deal.price_diff_percent.toFixed(1)}%</span>` : ''}
+                                </div>
+                                ${deal.agent_name ? `<small class="text-muted">👤 ${deal.agent_name} • 📞 ${deal.agent_phone || 'N/A'}</small>` : ''}
+                            </div>
+                        ` : ''}
+
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted">${deal.source} • ${new Date(deal.created_at).toLocaleDateString()}</small>
+                            <div class="d-flex gap-1">
+                                ${deal.url ? `<a href="${deal.url}" target="_blank" class="btn btn-outline-primary btn-sm">View</a>` : ''}
+                                <button class="btn btn-outline-info btn-sm" onclick="showDealDetails(${deal.id})">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            container.innerHTML = html;
+        }
+
+        // Update map markers
+        function updateMapMarkers(deals) {
+            // Clear existing markers
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+
+            deals.forEach(deal => {
+                if (deal.lat && deal.lng) {
+                    const marker = new google.maps.Marker({
+                        position: { lat: deal.lat, lng: deal.lng },
+                        map: map,
+                        title: deal.title
+                    });
+
+                    const infoWindowContent = `
+                        <div>
+                            <h6>${deal.title}</h6>
+                            <p>$${deal.price?.toLocaleString()}</p>
+                            <p>${deal.city}, ${deal.state}</p>
+                        </div>
+                    `;
+
+                    marker.addListener('click', () => {
+                        infoWindow.setContent(infoWindowContent);
+                        infoWindow.open(map, marker);
+                    });
+
+                    markers.push(marker);
+                }
+            });
+
+            // Fit map to markers if any
+            if (markers.length > 0) {
+                const bounds = new google.maps.LatLngBounds();
+                markers.forEach(marker => bounds.extend(marker.getPosition()));
+                map.fitBounds(bounds);
+            }
+        }
+
+        // Show deal details
+        function showDealDetails(dealId) {
+            // Find the deal in current results
+            const deals = Array.from(document.querySelectorAll('.deal-card'));
+            const dealCard = deals.find(card => {
+                const button = card.querySelector('button[onclick*="showDealDetails"]');
+                return button && button.getAttribute('onclick').includes(dealId.toString());
+            });
+
+            if (!dealCard) {
+                const modal = new bootstrap.Modal(document.getElementById('dealModal'));
+                document.getElementById('dealModalTitle').textContent = `Deal #${dealId}`;
+                document.getElementById('dealModalBody').innerHTML = '<p>Deal details not found in current results.</p>';
+                modal.show();
+                return;
+            }
+
+            // Extract deal info from the card (simplified approach)
+            const title = dealCard.querySelector('.card-title').textContent;
+            const price = dealCard.querySelector('.badge').textContent;
+            const location = dealCard.querySelector('.card-text.text-muted').textContent;
+            const details = dealCard.querySelectorAll('.card-text')[1]?.textContent || '';
+
+            const modal = new bootstrap.Modal(document.getElementById('dealModal'));
+            document.getElementById('dealModalTitle').textContent = title;
+
+            const modalBody = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Property Details</h6>
+                        <p><strong>Price:</strong> ${price}</p>
+                        <p><strong>Location:</strong> ${location}</p>
+                        <p><strong>Details:</strong> ${details}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Risk Assessment</h6>
+                        <p><strong>Crime Rate:</strong> ${dealCard.textContent.includes('Crime:') ? 'Available' : 'N/A'}</p>
+                        <p><strong>Flood Zone:</strong> ${dealCard.textContent.includes('Flood:') ? 'Available' : 'N/A'}</p>
+                        <p><strong>School Rating:</strong> ${dealCard.textContent.includes('School:') ? 'Available' : 'N/A'}</p>
+                        <p><strong>Sewage System:</strong> Municipal</p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6>Contact Information</h6>
+                    <p>Agent details available in the main listing view.</p>
+                </div>
+            `;
+
+            document.getElementById('dealModalBody').innerHTML = modalBody;
+            modal.show();
+        }
+
+        // Show image gallery
+        function showImageGallery(dealId, images) {
+            const modal = new bootstrap.Modal(document.getElementById('imageGalleryModal'));
+            document.getElementById('imageGalleryTitle').textContent = `Property Images - Deal #${dealId}`;
+
+            const galleryContainer = document.getElementById('imageGallery');
+            galleryContainer.innerHTML = '';
+
+            images.forEach((imageUrl, index) => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4 mb-3';
+
+                col.innerHTML = `
+                    <div class="card">
+                        <img src="${imageUrl}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="Property image ${index + 1}">
+                        <div class="card-body p-2">
+                            <small class="text-muted">Image ${index + 1} of ${images.length}</small>
+                        </div>
+                    </div>
+                `;
+
+                galleryContainer.appendChild(col);
+            });
+
+            modal.show();
+        }
+
+        // Apply filters
+        function applyFilters() {
+            loadDeals();
+        }
+
+        // Clear filters
+        function clearFilters() {
+            // Location filters
+            document.getElementById('city').value = '';
+            document.getElementById('state').value = 'GA';
+            document.getElementById('county').value = '';
+            document.getElementById('radius').value = '5';
+
+            // Price filters
+            document.getElementById('min-price').value = '';
+            document.getElementById('max-price').value = '';
+
+            // Property filters
+            document.getElementById('property-category').value = '';
+            document.getElementById('property-type').value = '';
+            document.getElementById('min-bedrooms').value = '';
+            document.getElementById('max-bedrooms').value = '';
+            document.getElementById('min-bathrooms').value = '';
+            document.getElementById('max-bathrooms').value = '';
+            document.getElementById('min-sqft').value = '';
+            document.getElementById('max-sqft').value = '';
+
+            // Amenities
+            document.getElementById('has-pool').checked = false;
+            document.getElementById('has-gym').checked = false;
+            document.getElementById('pet-friendly').checked = false;
+
+            // Risk filters
+            document.getElementById('crime-rate').value = '';
+            document.getElementById('flood-zone').value = '';
+            document.getElementById('min-school-rating').value = '';
+            document.getElementById('sewage-system').value = '';
+
+            // Data quality
+            document.getElementById('source').value = '';
+            document.getElementById('min-score').value = '0.5';
+            document.getElementById('score-output').textContent = '0.5';
+
+            // Reset to default location
+            currentLat = 33.7490;
+            currentLng = -84.3880;
+            if (map && typeof map.setCenter === 'function') {
+                map.setCenter({ lat: currentLat, lng: currentLng });
+                map.setZoom(10);
+            }
+
+            loadDeals();
+        }
+
+        // Update score output
+        document.getElementById('min-score').addEventListener('input', function() {
+            document.getElementById('score-output').textContent = this.value;
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+            loadStats();
+            loadDeals();
+        });
+    </script>
+</body>
+</html>

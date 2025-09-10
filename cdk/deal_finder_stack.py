@@ -137,7 +137,7 @@ class DealFinderStack(Stack):
 
         container = task_def.add_container(
             "app",
-            image=ecs.ContainerImage.from_registry(app_image),
+            image=ecs.ContainerImage.from_asset("../app"),
             logging=log_driver,
             environment={
                 # Values wired after defining RDS/Redis below using .add_environment
