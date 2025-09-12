@@ -1,0 +1,101 @@
+parcel_id,owner_name,owner_address,situs_address,situs_city,situs_state,situs_zip,land_use,zoning,acreage,sqft,year_built,assessed_value,taxable_value,tax_rate,annual_tax,county,source
+BAK000000,Sample Owner 0,"0 Main St, Atlanta, GA 30300",0 Sample Rd,Atlanta,GA,30000,Residential,R-0,0.5,1000,1980,50000,45000,0.025,1125,Baker,sample_tax_assessor
+BAK000001,Sample Owner 1,"1 Main St, Atlanta, GA 30301",10 Sample Rd,Marietta,GA,30001,Commercial,C-1,0.8,2000,1981,100000,90000,0.025,2250,Baker,sample_tax_assessor
+BAK000002,Sample Owner 2,"2 Main St, Atlanta, GA 30302",20 Sample Rd,Sandy Springs,GA,30002,Vacant,C-2,1.1,,,150000,135000,0.025,3375,Baker,sample_tax_assessor
+BAK000003,Sample Owner 3,"3 Main St, Atlanta, GA 30303",30 Sample Rd,Roswell,GA,30003,Residential,R-3,1.4,4000,1983,200000,180000,0.025,4500,Baker,sample_tax_assessor
+BAK000004,Sample Owner 4,"4 Main St, Atlanta, GA 30304",40 Sample Rd,Johns Creek,GA,30004,Commercial,C-4,1.7,5000,1984,250000,225000,0.025,5625,Baker,sample_tax_assessor
+BAK000005,Sample Owner 5,"5 Main St, Atlanta, GA 30305",50 Sample Rd,Atlanta,GA,30005,Vacant,C-0,2.0,,,300000,270000,0.025,6750,Baker,sample_tax_assessor
+BAK000006,Sample Owner 6,"6 Main St, Atlanta, GA 30306",60 Sample Rd,Marietta,GA,30006,Residential,R-6,2.3,2000,1986,350000,315000,0.025,7875,Baker,sample_tax_assessor
+BAK000007,Sample Owner 7,"7 Main St, Atlanta, GA 30307",70 Sample Rd,Sandy Springs,GA,30007,Commercial,C-2,2.6,3000,1987,400000,360000,0.025,9000,Baker,sample_tax_assessor
+BAK000008,Sample Owner 8,"8 Main St, Atlanta, GA 30308",80 Sample Rd,Roswell,GA,30008,Vacant,C-3,2.9,,,450000,405000,0.025,10125,Baker,sample_tax_assessor
+BAK000009,Sample Owner 9,"9 Main St, Atlanta, GA 30309",90 Sample Rd,Johns Creek,GA,30009,Residential,R-9,3.2,5000,1989,500000,450000,0.025,11250,Baker,sample_tax_assessor
+BAK000010,Sample Owner 10,"10 Main St, Atlanta, GA 30310",100 Sample Rd,Atlanta,GA,30000,Commercial,C-0,0.5,1000,1990,550000,495000,0.025,12375,Baker,sample_tax_assessor
+BAK000011,Sample Owner 11,"11 Main St, Atlanta, GA 30311",110 Sample Rd,Marietta,GA,30001,Vacant,C-1,0.8,,,600000,540000,0.025,13500,Baker,sample_tax_assessor
+BAK000012,Sample Owner 12,"12 Main St, Atlanta, GA 30312",120 Sample Rd,Sandy Springs,GA,30002,Residential,R-2,1.1,3000,1992,650000,585000,0.025,14625,Baker,sample_tax_assessor
+BAK000013,Sample Owner 13,"13 Main St, Atlanta, GA 30313",130 Sample Rd,Roswell,GA,30003,Commercial,C-3,1.4,4000,1993,700000,630000,0.025,15750,Baker,sample_tax_assessor
+BAK000014,Sample Owner 14,"14 Main St, Atlanta, GA 30314",140 Sample Rd,Johns Creek,GA,30004,Vacant,C-4,1.7,,,750000,675000,0.025,16875,Baker,sample_tax_assessor
+BAK000015,Sample Owner 15,"15 Main St, Atlanta, GA 30315",150 Sample Rd,Atlanta,GA,30005,Residential,R-5,2.0,1000,1995,800000,720000,0.025,18000,Baker,sample_tax_assessor
+BAK000016,Sample Owner 16,"16 Main St, Atlanta, GA 30316",160 Sample Rd,Marietta,GA,30006,Commercial,C-1,2.3,2000,1996,850000,765000,0.025,19125,Baker,sample_tax_assessor
+BAK000017,Sample Owner 17,"17 Main St, Atlanta, GA 30317",170 Sample Rd,Sandy Springs,GA,30007,Vacant,C-2,2.6,,,900000,810000,0.025,20250,Baker,sample_tax_assessor
+BAK000018,Sample Owner 18,"18 Main St, Atlanta, GA 30318",180 Sample Rd,Roswell,GA,30008,Residential,R-8,2.9,4000,1998,950000,855000,0.025,21375,Baker,sample_tax_assessor
+BAK000019,Sample Owner 19,"19 Main St, Atlanta, GA 30319",190 Sample Rd,Johns Creek,GA,30009,Commercial,C-4,3.2,5000,1999,1000000,900000,0.025,22500,Baker,sample_tax_assessor
+BAK000020,Sample Owner 20,"20 Main St, Atlanta, GA 30320",200 Sample Rd,Atlanta,GA,30000,Vacant,C-0,0.5,,,50000,45000,0.025,1125,Baker,sample_tax_assessor
+BAK000021,Sample Owner 21,"21 Main St, Atlanta, GA 30321",210 Sample Rd,Marietta,GA,30001,Residential,R-1,0.8,2000,2001,100000,90000,0.025,2250,Baker,sample_tax_assessor
+BAK000022,Sample Owner 22,"22 Main St, Atlanta, GA 30322",220 Sample Rd,Sandy Springs,GA,30002,Commercial,C-2,1.1,3000,2002,150000,135000,0.025,3375,Baker,sample_tax_assessor
+BAK000023,Sample Owner 23,"23 Main St, Atlanta, GA 30323",230 Sample Rd,Roswell,GA,30003,Vacant,C-3,1.4,,,200000,180000,0.025,4500,Baker,sample_tax_assessor
+BAK000024,Sample Owner 24,"24 Main St, Atlanta, GA 30324",240 Sample Rd,Johns Creek,GA,30004,Residential,R-4,1.7,5000,2004,250000,225000,0.025,5625,Baker,sample_tax_assessor
+BAK000025,Sample Owner 25,"25 Main St, Atlanta, GA 30325",250 Sample Rd,Atlanta,GA,30005,Commercial,C-0,2.0,1000,2005,300000,270000,0.025,6750,Baker,sample_tax_assessor
+BAK000026,Sample Owner 26,"26 Main St, Atlanta, GA 30326",260 Sample Rd,Marietta,GA,30006,Vacant,C-1,2.3,,,350000,315000,0.025,7875,Baker,sample_tax_assessor
+BAK000027,Sample Owner 27,"27 Main St, Atlanta, GA 30327",270 Sample Rd,Sandy Springs,GA,30007,Residential,R-7,2.6,3000,2007,400000,360000,0.025,9000,Baker,sample_tax_assessor
+BAK000028,Sample Owner 28,"28 Main St, Atlanta, GA 30328",280 Sample Rd,Roswell,GA,30008,Commercial,C-3,2.9,4000,2008,450000,405000,0.025,10125,Baker,sample_tax_assessor
+BAK000029,Sample Owner 29,"29 Main St, Atlanta, GA 30329",290 Sample Rd,Johns Creek,GA,30009,Vacant,C-4,3.2,,,500000,450000,0.025,11250,Baker,sample_tax_assessor
+BAK000030,Sample Owner 30,"30 Main St, Atlanta, GA 30330",300 Sample Rd,Atlanta,GA,30000,Residential,R-0,0.5,1000,2010,550000,495000,0.025,12375,Baker,sample_tax_assessor
+BAK000031,Sample Owner 31,"31 Main St, Atlanta, GA 30331",310 Sample Rd,Marietta,GA,30001,Commercial,C-1,0.8,2000,2011,600000,540000,0.025,13500,Baker,sample_tax_assessor
+BAK000032,Sample Owner 32,"32 Main St, Atlanta, GA 30332",320 Sample Rd,Sandy Springs,GA,30002,Vacant,C-2,1.1,,,650000,585000,0.025,14625,Baker,sample_tax_assessor
+BAK000033,Sample Owner 33,"33 Main St, Atlanta, GA 30333",330 Sample Rd,Roswell,GA,30003,Residential,R-3,1.4,4000,2013,700000,630000,0.025,15750,Baker,sample_tax_assessor
+BAK000034,Sample Owner 34,"34 Main St, Atlanta, GA 30334",340 Sample Rd,Johns Creek,GA,30004,Commercial,C-4,1.7,5000,2014,750000,675000,0.025,16875,Baker,sample_tax_assessor
+BAK000035,Sample Owner 35,"35 Main St, Atlanta, GA 30335",350 Sample Rd,Atlanta,GA,30005,Vacant,C-0,2.0,,,800000,720000,0.025,18000,Baker,sample_tax_assessor
+BAK000036,Sample Owner 36,"36 Main St, Atlanta, GA 30336",360 Sample Rd,Marietta,GA,30006,Residential,R-6,2.3,2000,2016,850000,765000,0.025,19125,Baker,sample_tax_assessor
+BAK000037,Sample Owner 37,"37 Main St, Atlanta, GA 30337",370 Sample Rd,Sandy Springs,GA,30007,Commercial,C-2,2.6,3000,2017,900000,810000,0.025,20250,Baker,sample_tax_assessor
+BAK000038,Sample Owner 38,"38 Main St, Atlanta, GA 30338",380 Sample Rd,Roswell,GA,30008,Vacant,C-3,2.9,,,950000,855000,0.025,21375,Baker,sample_tax_assessor
+BAK000039,Sample Owner 39,"39 Main St, Atlanta, GA 30339",390 Sample Rd,Johns Creek,GA,30009,Residential,R-9,3.2,5000,2019,1000000,900000,0.025,22500,Baker,sample_tax_assessor
+BAK000040,Sample Owner 40,"40 Main St, Atlanta, GA 30340",400 Sample Rd,Atlanta,GA,30000,Commercial,C-0,0.5,1000,1980,50000,45000,0.025,1125,Baker,sample_tax_assessor
+BAK000041,Sample Owner 41,"41 Main St, Atlanta, GA 30341",410 Sample Rd,Marietta,GA,30001,Vacant,C-1,0.8,,,100000,90000,0.025,2250,Baker,sample_tax_assessor
+BAK000042,Sample Owner 42,"42 Main St, Atlanta, GA 30342",420 Sample Rd,Sandy Springs,GA,30002,Residential,R-2,1.1,3000,1982,150000,135000,0.025,3375,Baker,sample_tax_assessor
+BAK000043,Sample Owner 43,"43 Main St, Atlanta, GA 30343",430 Sample Rd,Roswell,GA,30003,Commercial,C-3,1.4,4000,1983,200000,180000,0.025,4500,Baker,sample_tax_assessor
+BAK000044,Sample Owner 44,"44 Main St, Atlanta, GA 30344",440 Sample Rd,Johns Creek,GA,30004,Vacant,C-4,1.7,,,250000,225000,0.025,5625,Baker,sample_tax_assessor
+BAK000045,Sample Owner 45,"45 Main St, Atlanta, GA 30345",450 Sample Rd,Atlanta,GA,30005,Residential,R-5,2.0,1000,1985,300000,270000,0.025,6750,Baker,sample_tax_assessor
+BAK000046,Sample Owner 46,"46 Main St, Atlanta, GA 30346",460 Sample Rd,Marietta,GA,30006,Commercial,C-1,2.3,2000,1986,350000,315000,0.025,7875,Baker,sample_tax_assessor
+BAK000047,Sample Owner 47,"47 Main St, Atlanta, GA 30347",470 Sample Rd,Sandy Springs,GA,30007,Vacant,C-2,2.6,,,400000,360000,0.025,9000,Baker,sample_tax_assessor
+BAK000048,Sample Owner 48,"48 Main St, Atlanta, GA 30348",480 Sample Rd,Roswell,GA,30008,Residential,R-8,2.9,4000,1988,450000,405000,0.025,10125,Baker,sample_tax_assessor
+BAK000049,Sample Owner 49,"49 Main St, Atlanta, GA 30349",490 Sample Rd,Johns Creek,GA,30009,Commercial,C-4,3.2,5000,1989,500000,450000,0.025,11250,Baker,sample_tax_assessor
+BAK000050,Sample Owner 50,"50 Main St, Atlanta, GA 30350",500 Sample Rd,Atlanta,GA,30000,Vacant,C-0,0.5,,,550000,495000,0.025,12375,Baker,sample_tax_assessor
+BAK000051,Sample Owner 51,"51 Main St, Atlanta, GA 30351",510 Sample Rd,Marietta,GA,30001,Residential,R-1,0.8,2000,1991,600000,540000,0.025,13500,Baker,sample_tax_assessor
+BAK000052,Sample Owner 52,"52 Main St, Atlanta, GA 30352",520 Sample Rd,Sandy Springs,GA,30002,Commercial,C-2,1.1,3000,1992,650000,585000,0.025,14625,Baker,sample_tax_assessor
+BAK000053,Sample Owner 53,"53 Main St, Atlanta, GA 30353",530 Sample Rd,Roswell,GA,30003,Vacant,C-3,1.4,,,700000,630000,0.025,15750,Baker,sample_tax_assessor
+BAK000054,Sample Owner 54,"54 Main St, Atlanta, GA 30354",540 Sample Rd,Johns Creek,GA,30004,Residential,R-4,1.7,5000,1994,750000,675000,0.025,16875,Baker,sample_tax_assessor
+BAK000055,Sample Owner 55,"55 Main St, Atlanta, GA 30355",550 Sample Rd,Atlanta,GA,30005,Commercial,C-0,2.0,1000,1995,800000,720000,0.025,18000,Baker,sample_tax_assessor
+BAK000056,Sample Owner 56,"56 Main St, Atlanta, GA 30356",560 Sample Rd,Marietta,GA,30006,Vacant,C-1,2.3,,,850000,765000,0.025,19125,Baker,sample_tax_assessor
+BAK000057,Sample Owner 57,"57 Main St, Atlanta, GA 30357",570 Sample Rd,Sandy Springs,GA,30007,Residential,R-7,2.6,3000,1997,900000,810000,0.025,20250,Baker,sample_tax_assessor
+BAK000058,Sample Owner 58,"58 Main St, Atlanta, GA 30358",580 Sample Rd,Roswell,GA,30008,Commercial,C-3,2.9,4000,1998,950000,855000,0.025,21375,Baker,sample_tax_assessor
+BAK000059,Sample Owner 59,"59 Main St, Atlanta, GA 30359",590 Sample Rd,Johns Creek,GA,30009,Vacant,C-4,3.2,,,1000000,900000,0.025,22500,Baker,sample_tax_assessor
+BAK000060,Sample Owner 60,"60 Main St, Atlanta, GA 30360",600 Sample Rd,Atlanta,GA,30000,Residential,R-0,0.5,1000,2000,50000,45000,0.025,1125,Baker,sample_tax_assessor
+BAK000061,Sample Owner 61,"61 Main St, Atlanta, GA 30361",610 Sample Rd,Marietta,GA,30001,Commercial,C-1,0.8,2000,2001,100000,90000,0.025,2250,Baker,sample_tax_assessor
+BAK000062,Sample Owner 62,"62 Main St, Atlanta, GA 30362",620 Sample Rd,Sandy Springs,GA,30002,Vacant,C-2,1.1,,,150000,135000,0.025,3375,Baker,sample_tax_assessor
+BAK000063,Sample Owner 63,"63 Main St, Atlanta, GA 30363",630 Sample Rd,Roswell,GA,30003,Residential,R-3,1.4,4000,2003,200000,180000,0.025,4500,Baker,sample_tax_assessor
+BAK000064,Sample Owner 64,"64 Main St, Atlanta, GA 30364",640 Sample Rd,Johns Creek,GA,30004,Commercial,C-4,1.7,5000,2004,250000,225000,0.025,5625,Baker,sample_tax_assessor
+BAK000065,Sample Owner 65,"65 Main St, Atlanta, GA 30365",650 Sample Rd,Atlanta,GA,30005,Vacant,C-0,2.0,,,300000,270000,0.025,6750,Baker,sample_tax_assessor
+BAK000066,Sample Owner 66,"66 Main St, Atlanta, GA 30366",660 Sample Rd,Marietta,GA,30006,Residential,R-6,2.3,2000,2006,350000,315000,0.025,7875,Baker,sample_tax_assessor
+BAK000067,Sample Owner 67,"67 Main St, Atlanta, GA 30367",670 Sample Rd,Sandy Springs,GA,30007,Commercial,C-2,2.6,3000,2007,400000,360000,0.025,9000,Baker,sample_tax_assessor
+BAK000068,Sample Owner 68,"68 Main St, Atlanta, GA 30368",680 Sample Rd,Roswell,GA,30008,Vacant,C-3,2.9,,,450000,405000,0.025,10125,Baker,sample_tax_assessor
+BAK000069,Sample Owner 69,"69 Main St, Atlanta, GA 30369",690 Sample Rd,Johns Creek,GA,30009,Residential,R-9,3.2,5000,2009,500000,450000,0.025,11250,Baker,sample_tax_assessor
+BAK000070,Sample Owner 70,"70 Main St, Atlanta, GA 30370",700 Sample Rd,Atlanta,GA,30000,Commercial,C-0,0.5,1000,2010,550000,495000,0.025,12375,Baker,sample_tax_assessor
+BAK000071,Sample Owner 71,"71 Main St, Atlanta, GA 30371",710 Sample Rd,Marietta,GA,30001,Vacant,C-1,0.8,,,600000,540000,0.025,13500,Baker,sample_tax_assessor
+BAK000072,Sample Owner 72,"72 Main St, Atlanta, GA 30372",720 Sample Rd,Sandy Springs,GA,30002,Residential,R-2,1.1,3000,2012,650000,585000,0.025,14625,Baker,sample_tax_assessor
+BAK000073,Sample Owner 73,"73 Main St, Atlanta, GA 30373",730 Sample Rd,Roswell,GA,30003,Commercial,C-3,1.4,4000,2013,700000,630000,0.025,15750,Baker,sample_tax_assessor
+BAK000074,Sample Owner 74,"74 Main St, Atlanta, GA 30374",740 Sample Rd,Johns Creek,GA,30004,Vacant,C-4,1.7,,,750000,675000,0.025,16875,Baker,sample_tax_assessor
+BAK000075,Sample Owner 75,"75 Main St, Atlanta, GA 30375",750 Sample Rd,Atlanta,GA,30005,Residential,R-5,2.0,1000,2015,800000,720000,0.025,18000,Baker,sample_tax_assessor
+BAK000076,Sample Owner 76,"76 Main St, Atlanta, GA 30376",760 Sample Rd,Marietta,GA,30006,Commercial,C-1,2.3,2000,2016,850000,765000,0.025,19125,Baker,sample_tax_assessor
+BAK000077,Sample Owner 77,"77 Main St, Atlanta, GA 30377",770 Sample Rd,Sandy Springs,GA,30007,Vacant,C-2,2.6,,,900000,810000,0.025,20250,Baker,sample_tax_assessor
+BAK000078,Sample Owner 78,"78 Main St, Atlanta, GA 30378",780 Sample Rd,Roswell,GA,30008,Residential,R-8,2.9,4000,2018,950000,855000,0.025,21375,Baker,sample_tax_assessor
+BAK000079,Sample Owner 79,"79 Main St, Atlanta, GA 30379",790 Sample Rd,Johns Creek,GA,30009,Commercial,C-4,3.2,5000,2019,1000000,900000,0.025,22500,Baker,sample_tax_assessor
+BAK000080,Sample Owner 80,"80 Main St, Atlanta, GA 30380",800 Sample Rd,Atlanta,GA,30000,Vacant,C-0,0.5,,,50000,45000,0.025,1125,Baker,sample_tax_assessor
+BAK000081,Sample Owner 81,"81 Main St, Atlanta, GA 30381",810 Sample Rd,Marietta,GA,30001,Residential,R-1,0.8,2000,1981,100000,90000,0.025,2250,Baker,sample_tax_assessor
+BAK000082,Sample Owner 82,"82 Main St, Atlanta, GA 30382",820 Sample Rd,Sandy Springs,GA,30002,Commercial,C-2,1.1,3000,1982,150000,135000,0.025,3375,Baker,sample_tax_assessor
+BAK000083,Sample Owner 83,"83 Main St, Atlanta, GA 30383",830 Sample Rd,Roswell,GA,30003,Vacant,C-3,1.4,,,200000,180000,0.025,4500,Baker,sample_tax_assessor
+BAK000084,Sample Owner 84,"84 Main St, Atlanta, GA 30384",840 Sample Rd,Johns Creek,GA,30004,Residential,R-4,1.7,5000,1984,250000,225000,0.025,5625,Baker,sample_tax_assessor
+BAK000085,Sample Owner 85,"85 Main St, Atlanta, GA 30385",850 Sample Rd,Atlanta,GA,30005,Commercial,C-0,2.0,1000,1985,300000,270000,0.025,6750,Baker,sample_tax_assessor
+BAK000086,Sample Owner 86,"86 Main St, Atlanta, GA 30386",860 Sample Rd,Marietta,GA,30006,Vacant,C-1,2.3,,,350000,315000,0.025,7875,Baker,sample_tax_assessor
+BAK000087,Sample Owner 87,"87 Main St, Atlanta, GA 30387",870 Sample Rd,Sandy Springs,GA,30007,Residential,R-7,2.6,3000,1987,400000,360000,0.025,9000,Baker,sample_tax_assessor
+BAK000088,Sample Owner 88,"88 Main St, Atlanta, GA 30388",880 Sample Rd,Roswell,GA,30008,Commercial,C-3,2.9,4000,1988,450000,405000,0.025,10125,Baker,sample_tax_assessor
+BAK000089,Sample Owner 89,"89 Main St, Atlanta, GA 30389",890 Sample Rd,Johns Creek,GA,30009,Vacant,C-4,3.2,,,500000,450000,0.025,11250,Baker,sample_tax_assessor
+BAK000090,Sample Owner 90,"90 Main St, Atlanta, GA 30390",900 Sample Rd,Atlanta,GA,30000,Residential,R-0,0.5,1000,1990,550000,495000,0.025,12375,Baker,sample_tax_assessor
+BAK000091,Sample Owner 91,"91 Main St, Atlanta, GA 30391",910 Sample Rd,Marietta,GA,30001,Commercial,C-1,0.8,2000,1991,600000,540000,0.025,13500,Baker,sample_tax_assessor
+BAK000092,Sample Owner 92,"92 Main St, Atlanta, GA 30392",920 Sample Rd,Sandy Springs,GA,30002,Vacant,C-2,1.1,,,650000,585000,0.025,14625,Baker,sample_tax_assessor
+BAK000093,Sample Owner 93,"93 Main St, Atlanta, GA 30393",930 Sample Rd,Roswell,GA,30003,Residential,R-3,1.4,4000,1993,700000,630000,0.025,15750,Baker,sample_tax_assessor
+BAK000094,Sample Owner 94,"94 Main St, Atlanta, GA 30394",940 Sample Rd,Johns Creek,GA,30004,Commercial,C-4,1.7,5000,1994,750000,675000,0.025,16875,Baker,sample_tax_assessor
+BAK000095,Sample Owner 95,"95 Main St, Atlanta, GA 30395",950 Sample Rd,Atlanta,GA,30005,Vacant,C-0,2.0,,,800000,720000,0.025,18000,Baker,sample_tax_assessor
+BAK000096,Sample Owner 96,"96 Main St, Atlanta, GA 30396",960 Sample Rd,Marietta,GA,30006,Residential,R-6,2.3,2000,1996,850000,765000,0.025,19125,Baker,sample_tax_assessor
+BAK000097,Sample Owner 97,"97 Main St, Atlanta, GA 30397",970 Sample Rd,Sandy Springs,GA,30007,Commercial,C-2,2.6,3000,1997,900000,810000,0.025,20250,Baker,sample_tax_assessor
+BAK000098,Sample Owner 98,"98 Main St, Atlanta, GA 30398",980 Sample Rd,Roswell,GA,30008,Vacant,C-3,2.9,,,950000,855000,0.025,21375,Baker,sample_tax_assessor
+BAK000099,Sample Owner 99,"99 Main St, Atlanta, GA 30399",990 Sample Rd,Johns Creek,GA,30009,Residential,R-9,3.2,5000,1999,1000000,900000,0.025,22500,Baker,sample_tax_assessor

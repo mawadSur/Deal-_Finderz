@@ -1,0 +1,77 @@
+{
+  "total_parcels": 4800000,
+  "residential_parcels": 3200000,
+  "commercial_parcels": 280000,
+  "vacant_land_parcels": 1200000,
+  "farm_parcels": 100000,
+  "population": 11000000,
+  "households": 4200000,
+  "median_home_value": 350000,
+  "median_household_income": 65000,
+  "top_counties": {
+    "Fulton": {
+      "parcels": 220000,
+      "population": 1075000
+    },
+    "Gwinnett": {
+      "parcels": 180000,
+      "population": 980000
+    },
+    "DeKalb": {
+      "parcels": 160000,
+      "population": 764000
+    },
+    "Cobb": {
+      "parcels": 140000,
+      "population": 770000
+    },
+    "Clayton": {
+      "parcels": 60000,
+      "population": 297000
+    },
+    "Cherokee": {
+      "parcels": 55000,
+      "population": 280000
+    },
+    "Henry": {
+      "parcels": 50000,
+      "population": 245000
+    },
+    "Fayette": {
+      "parcels": 25000,
+      "population": 120000
+    },
+    "Forsyth": {
+      "parcels": 45000,
+      "population": 260000
+    },
+    "Paulding": {
+      "parcels": 30000,
+      "population": 180000
+    }
+  },
+  "annual_sales": 350000,
+  "new_construction": 45000,
+  "foreclosures": 12000,
+  "short_sales": 8000,
+  "data_sources": {
+    "ga_gio_parcels": {
+      "coverage": "100%",
+      "update_frequency": "quarterly",
+      "last_updated": "2024-Q4",
+      "record_count": 4800000
+    },
+    "county_tax_rolls": {
+      "coverage": "100%",
+      "update_frequency": "annual",
+      "last_updated": "2024",
+      "record_count": 4800000
+    },
+    "gsccca_deeds": {
+      "coverage": "100%",
+      "update_frequency": "daily",
+      "last_updated": "2025-01-12",
+      "record_count": 350000
+    }
+  }
+}

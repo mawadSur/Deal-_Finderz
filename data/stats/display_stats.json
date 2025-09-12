@@ -1,0 +1,11 @@
+{
+  "total_deals": 4800000,
+  "residential_properties": 3200000,
+  "commercial_properties": 280000,
+  "vacant_land": 1200000,
+  "recent_sales": 29166,
+  "median_home_value": 350000,
+  "active_listings": 96000,
+  "avg_days_on_market": 45,
+  "data_source": "GA GIO Statewide Parcels + County Tax Rolls"
+}

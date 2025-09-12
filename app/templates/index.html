@@ -6,13 +6,57 @@
     <title>Deal Finder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Maps will be loaded dynamically to avoid API key issues -->
+    {% if maps_enabled %}
     <script>
-        // Load Google Maps without API key for basic functionality
+        // Define the callback function on window before loading the script
         window.initMap = function() {
-            // This will be called when Google Maps loads
+            try {
+                const mapOptions = {
+                    center: { lat: currentLat, lng: currentLng },
+                    zoom: 10,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                infoWindow = new google.maps.InfoWindow();
+
+                // Add click listener
+                map.addListener('click', function(e) {
+                    currentLat = e.latLng.lat();
+                    currentLng = e.latLng.lng();
+                    updateLocationInput();
+                    applyFilters();
+                });
+
+                console.log('Google Maps initialized successfully');
+            } catch (error) {
+                console.error('Google Maps initialization failed:', error);
+                // Fallback: show message in map div
+                document.getElementById('map').innerHTML = `
+                    <div class="alert alert-warning m-3">
+                        <h6>Map Unavailable</h6>
+                        <p>Google Maps could not be loaded. Location-based filtering is disabled.</p>
+                        <small>Please check your internet connection or try refreshing the page.</small>
+                    </div>
+                `;
+            }
         };
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initMap"></script>
+    {% else %}
+    <script>
+        // No Google Maps API key - show fallback immediately
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('map').innerHTML = `
+                <div class="alert alert-warning m-3">
+                    <h6>Map Unavailable</h6>
+                    <p>Google Maps API key not configured. Location-based filtering is disabled.</p>
+                    <small>Please configure GOOGLE_MAPS_API_KEY to enable maps.</small>
+                </div>
+            `;
+        });
+    </script>
+    {% endif %}
     <style>
         #map { height: 400px; }
         .deal-card { margin-bottom: 1rem; }
@@ -25,8 +69,9 @@
 <body>
     <div class="container-fluid">
         <header class="my-4">
-            <h1 class="text-center">🏠 Deal Finder</h1>
-            <p class="text-center text-muted">Find the best real estate deals with Zillow cross-referencing</p>
+            <h1 class="text-center">🏠 Georgia Deal Finder</h1>
+            <p class="text-center text-muted">Find the best real estate deals using official Georgia public records</p>
+            <p class="text-center small text-info">Data sources: GA GIO Parcels • County Tax Rolls • GSCCCA Deeds • FEMA Flood Zones</p>
         </header>
 
         <!-- Statistics -->
@@ -85,7 +130,7 @@
                         </div>
                         <div class="mb-2">
                             <label for="radius" class="form-label small">Search Radius (km)</label>
-                            <input type="number" class="form-control form-control-sm" id="radius" value="5" min="1" max="50">
+                            <input type="number" class="form-control form-control-sm" id="radius" value="" placeholder="Radius (km, optional)" min="1" max="50">
                         </div>
                     </div>
 
@@ -151,7 +196,7 @@
                                 <input type="number" class="form-control form-control-sm" id="max-bathrooms" placeholder="Max Baths">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
                             <div class="col-6">
                                 <input type="number" class="form-control form-control-sm" id="min-sqft" placeholder="Min SqFt">
                             </div>
@@ -159,6 +204,16 @@
                                 <input type="number" class="form-control form-control-sm" id="max-sqft" placeholder="Max SqFt">
                             </div>
                         </div>
+                        <small class="text-muted mb-2">SqFt filter applies only to built properties (houses, condos, commercial)</small>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="min-lot-size" placeholder="Min Acres" step="0.1">
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control form-control-sm" id="max-lot-size" placeholder="Max Acres" step="0.1">
+                            </div>
+                        </div>
+                        <small class="text-muted">Land size in acres (applies to all property types)</small>
                     </div>
 
                     <!-- Amenities -->
@@ -209,6 +264,18 @@
                         </div>
                     </div>
 
+                    <!-- Market Status -->
+                    <div class="mb-3">
+                        <h6>🏷️ Market Status</h6>
+                        <div class="mb-2">
+                            <select class="form-control form-control-sm" id="market-status">
+                                <option value="">All Properties</option>
+                                <option value="on_market">On Market</option>
+                                <option value="off_market">Off Market</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Data Source & Quality -->
                     <div class="mb-3">
                         <h6>📊 Data Quality</h6>
@@ -222,8 +289,8 @@
                         </div>
                         <div class="mb-2">
                             <label for="min-score" class="form-label small">Min Zillow Match Score</label>
-                            <input type="range" class="form-range" id="min-score" min="0" max="1" step="0.1" value="0.5">
-                            <output id="score-output" class="small">0.5</output>
+                            <input type="range" class="form-range" id="min-score" min="0" max="1" step="0.1" value="0">
+                            <output id="score-output" class="small">0</output>
                         </div>
                     </div>
 
@@ -248,6 +315,9 @@
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
+                </div>
+                <div class="d-grid mt-3">
+                    <button id="load-more-btn" class="btn btn-outline-secondary d-none" onclick="loadMore()">Load more</button>
                 </div>
             </div>
         </div>
@@ -287,11 +357,27 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Global variables for Google Maps - must be defined before initMap is called
         let map;
         let currentLat = 33.7490; // Default to Atlanta, GA
         let currentLng = -84.3880;
         let markers = [];
         let infoWindow;
+        let currentPage = 1;
+        let pageSize = 100;
+
+        // Helper functions needed by initMap - must be defined before initMap
+        function updateLocationInput() {
+            // This function will be properly defined later, but we need it available for initMap
+            console.log('Location updated:', currentLat, currentLng);
+        }
+
+        function applyFilters() {
+            // This function will be properly defined later, but we need it available for initMap
+            console.log('Filters applied');
+        }
+
+
 
         // Property type options for each category
         const propertyTypes = {
@@ -343,39 +429,6 @@
             }
         }
 
-        // Initialize Google Map
-        function initMap() {
-            try {
-                const mapOptions = {
-                    center: { lat: currentLat, lng: currentLng },
-                    zoom: 10,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                };
-
-                map = new google.maps.Map(document.getElementById('map'), mapOptions);
-                infoWindow = new google.maps.InfoWindow();
-
-                // Add click listener
-                map.addListener('click', function(e) {
-                    currentLat = e.latLng.lat();
-                    currentLng = e.latLng.lng();
-                    updateLocationInput();
-                    applyFilters();
-                });
-
-                console.log('Google Maps initialized successfully');
-            } catch (error) {
-                console.error('Google Maps initialization failed:', error);
-                // Fallback: show message in map div
-                document.getElementById('map').innerHTML = `
-                    <div class="alert alert-warning m-3">
-                        <h6>Map Unavailable</h6>
-                        <p>Google Maps could not be loaded. Location-based filtering is disabled.</p>
-                        <small>Please check your internet connection or try refreshing the page.</small>
-                    </div>
-                `;
-            }
-        }
 
         // Update location input field
         function updateLocationInput() {
@@ -398,9 +451,11 @@
         }
 
         // Load deals
-        async function loadDeals() {
+        async function loadDeals(append = false) {
             const container = document.getElementById('deals-container');
-            container.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+            if (!append) {
+                container.innerHTML = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+            }
 
             try {
                 const params = new URLSearchParams();
@@ -431,6 +486,8 @@
                 const maxBathrooms = document.getElementById('max-bathrooms').value;
                 const minSqft = document.getElementById('min-sqft').value;
                 const maxSqft = document.getElementById('max-sqft').value;
+                const minLotSize = document.getElementById('min-lot-size').value;
+                const maxLotSize = document.getElementById('max-lot-size').value;
 
                 if (propertyCategory) params.append('property_category', propertyCategory);
                 if (propertyType) params.append('property_type', propertyType);
@@ -440,6 +497,8 @@
                 if (maxBathrooms) params.append('max_bathrooms', maxBathrooms);
                 if (minSqft) params.append('min_sqft', minSqft);
                 if (maxSqft) params.append('max_sqft', maxSqft);
+                if (minLotSize) params.append('min_lot_size', minLotSize);
+                if (maxLotSize) params.append('max_lot_size', maxLotSize);
 
                 // Amenities
                 const hasPool = document.getElementById('has-pool').checked;
@@ -461,10 +520,14 @@
                 if (minSchoolRating) params.append('min_school_rating', minSchoolRating);
                 if (sewageSystem) params.append('sewage_system', sewageSystem);
 
+                // Market status
+                const marketStatus = document.getElementById('market-status').value;
+
                 // Data quality
                 const source = document.getElementById('source').value;
                 const minScore = document.getElementById('min-score').value;
 
+                if (marketStatus) params.append('market_status', marketStatus);
                 if (source) params.append('source', source);
                 if (minScore) params.append('min_score', minScore);
 
@@ -472,14 +535,36 @@
                 params.append('lat', currentLat);
                 params.append('lng', currentLng);
 
+                // Pagination
+                params.append('page', currentPage);
+                params.append('page_size', pageSize);
+
                 const response = await fetch(`/api/deals?${params}`);
                 const data = await response.json();
 
-                displayDeals(data.deals);
-                document.getElementById('result-count').textContent = data.count;
+                // Update header count with TOTAL not just page count
+                document.getElementById('result-count').textContent = data.total ?? data.count ?? 0;
+                // Also update Total Deals tile to kill any hard ceiling
+                const totalDealsTile = document.getElementById('total-deals');
+                if (totalDealsTile) totalDealsTile.textContent = (data.total ?? data.count ?? 0);
 
-                // Update map markers
-                updateMapMarkers(data.deals);
+                // Render or append
+                if (!append) {
+                    displayDeals(data.deals);
+                    // Update map markers on first page
+                    updateMapMarkers(data.deals);
+                } else {
+                    appendDeals(data.deals);
+                }
+
+                // Toggle Load More button
+                const loadMoreBtn = document.getElementById('load-more-btn');
+                if (data.has_more) {
+                    loadMoreBtn.classList.remove('d-none');
+                    loadMoreBtn.disabled = false;
+                } else {
+                    loadMoreBtn.classList.add('d-none');
+                }
 
             } catch (error) {
                 console.error('Error loading deals:', error);
@@ -576,6 +661,69 @@
 
             container.innerHTML = html;
         }
+
+        // Append deals (for Load More)
+        function appendDeals(deals) {
+            if (!deals || deals.length === 0) return;
+            const container = document.getElementById('deals-container');
+            const html = deals.map(deal => `
+                <div class="card deal-card">
+                    ${deal.images && deal.images.length > 0 ? `
+                        <div class="card-img-top position-relative">
+                            <img src="${deal.images[0]}" class="img-fluid" style="height: 200px; object-fit: cover;" alt="Property image">
+                            ${deal.images.length > 1 ? `
+                                <div class="position-absolute top-50 start-50 translate-middle">
+                                    <button class="btn btn-light btn-sm" onclick="showImageGallery(${deal.id}, ${JSON.stringify(deal.images).replace(/"/g, '"')})">
+                                        📸 ${deal.images.length} photos
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title">${deal.title}</h5>
+                                <p class="card-text text-muted mb-1">
+                                    📍 ${deal.city}, ${deal.state} ${deal.county ? `(${deal.county} County)` : ''}
+                                </p>
+                                <p class="card-text text-muted small">
+                                    ${deal.property_category === 'commercial' ?
+                                        `${deal.property_type.replace('_', ' ').toUpperCase()} • ${deal.square_feet?.toLocaleString()} sqft` :
+                                     deal.property_category === 'land' ?
+                                        `${deal.property_type.replace('_', ' ').toUpperCase()} • ${(deal.lot_size / 43560)?.toFixed(1)} acres` :
+                                        `${deal.property_type} • ${deal.bedrooms} bed • ${deal.bathrooms} bath • ${deal.square_feet?.toLocaleString()} sqft`}
+                                </p>
+                            </div>
+                            <span class="badge ${deal.property_category === 'commercial' ? 'bg-success' :
+                                               deal.property_category === 'land' ? 'bg-warning' : 'bg-primary'} fs-6">
+                                $${deal.price?.toLocaleString()}
+                            </span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted">${deal.source} • ${new Date(deal.created_at).toLocaleDateString()}</small>
+                            <div class="d-flex gap-1">
+                                ${deal.url ? `<a href="${deal.url}" target="_blank" class="btn btn-outline-primary btn-sm">View</a>` : ''}
+                                <button class="btn btn-outline-info btn-sm" onclick="showDealDetails(${deal.id})">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            const temp = document.createElement('div');
+            temp.innerHTML = html;
+            while (temp.firstChild) container.appendChild(temp.firstChild);
+        }
+
+        // Load more handler
+        async function loadMore() {
+            const btn = document.getElementById('load-more-btn');
+            if (btn) btn.disabled = true;
+            currentPage += 1;
+            await loadDeals(true);
+        }
+
 
         // Update map markers
         function updateMapMarkers(deals) {
@@ -697,7 +845,9 @@
 
         // Apply filters
         function applyFilters() {
-            loadDeals();
+            // Reset pagination when filters change
+            currentPage = 1;
+            loadDeals(false);
         }
 
         // Clear filters
@@ -706,7 +856,7 @@
             document.getElementById('city').value = '';
             document.getElementById('state').value = 'GA';
             document.getElementById('county').value = '';
-            document.getElementById('radius').value = '5';
+            document.getElementById('radius').value = '';
 
             // Price filters
             document.getElementById('min-price').value = '';
@@ -721,6 +871,8 @@
             document.getElementById('max-bathrooms').value = '';
             document.getElementById('min-sqft').value = '';
             document.getElementById('max-sqft').value = '';
+            document.getElementById('min-lot-size').value = '';
+            document.getElementById('max-lot-size').value = '';
 
             // Amenities
             document.getElementById('has-pool').checked = false;
@@ -733,10 +885,13 @@
             document.getElementById('min-school-rating').value = '';
             document.getElementById('sewage-system').value = '';
 
+            // Market status
+            document.getElementById('market-status').value = '';
+
             // Data quality
             document.getElementById('source').value = '';
-            document.getElementById('min-score').value = '0.5';
-            document.getElementById('score-output').textContent = '0.5';
+            document.getElementById('min-score').value = '0';
+            document.getElementById('score-output').textContent = '0';
 
             // Reset to default location
             currentLat = 33.7490;
@@ -756,9 +911,10 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            initMap();
+            // initMap() is called automatically by Google Maps if script is loaded
+            // Fallback message is handled in separate conditional script block above
             loadStats();
-            loadDeals();
+            loadDeals(false);
         });
     </script>
 </body>

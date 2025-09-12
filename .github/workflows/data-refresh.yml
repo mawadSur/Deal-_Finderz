@@ -1,0 +1,151 @@
+name: Georgia Property Data Refresh
+
+on:
+  schedule:
+    # Daily at 2 AM EST (6 AM UTC)
+    - cron: '0 6 * * *'
+    # Weekly on Sunday at 3 AM EST (7 AM UTC)
+    - cron: '0 7 * * 0'
+    # Monthly on 1st at 4 AM EST (8 AM UTC)
+    - cron: '0 8 1 * *'
+  workflow_dispatch:
+    inputs:
+      job_type:
+        description: 'Type of refresh job to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - daily
+          - weekly
+          - monthly
+          - ga_gio_parcels
+          - county_tax_assessors
+          - gsccca_deeds
+          - county_permits
+          - fema_flood
+          - ga_doe_schools
+
+jobs:
+  data-refresh:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgis/postgis:15-3.3
+        env:
+          POSTGRES_DB: deal_finder
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres123
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r scripts/requirements.txt
+        pip install psycopg2-binary
+
+    - name: Wait for PostgreSQL
+      run: |
+        while ! pg_isready -h localhost -p 5432; do
+          sleep 1
+        done
+        echo "PostgreSQL is ready"
+
+    - name: Setup database
+      run: |
+        export DB_HOST=localhost
+        export DB_PORT=5432
+        export DB_NAME=deal_finder
+        export DB_USER=postgres
+        export DB_PASSWORD=postgres123
+        python scripts/setup_database.py setup
+
+    - name: Initialize data refresh schedule
+      run: |
+        python scripts/data_refresh_scheduler.py init
+
+    - name: Run data refresh jobs
+      run: |
+        export DB_HOST=localhost
+        export DB_PORT=5432
+        export DB_NAME=deal_finder
+        export DB_USER=postgres
+        export DB_PASSWORD=postgres123
+
+        if [ "${{ github.event.inputs.job_type }}" = "all" ] || [ -z "${{ github.event.inputs.job_type }}" ]; then
+          echo "Running all scheduled jobs..."
+          python scripts/data_refresh_scheduler.py run
+        elif [ "${{ github.event.inputs.job_type }}" = "daily" ]; then
+          echo "Running daily jobs..."
+          python scripts/data_refresh_scheduler.py run_county_tax_assessors
+          python scripts/data_refresh_scheduler.py run_gsccca_deeds
+          python scripts/data_refresh_scheduler.py run_county_permits
+        elif [ "${{ github.event.inputs.job_type }}" = "weekly" ]; then
+          echo "Running weekly jobs..."
+          python scripts/data_refresh_scheduler.py run_ga_gio_parcels
+        elif [ "${{ github.event.inputs.job_type }}" = "monthly" ]; then
+          echo "Running monthly jobs..."
+          python scripts/data_refresh_scheduler.py run_fema_flood
+        else
+          echo "Running specific job: ${{ github.event.inputs.job_type }}"
+          python scripts/data_refresh_scheduler.py run_${{ github.event.inputs.job_type }}
+        fi
+
+    - name: Database optimization
+      run: |
+        export DB_HOST=localhost
+        export DB_PORT=5432
+        export DB_NAME=deal_finder
+        export DB_USER=postgres
+        export DB_PASSWORD=postgres123
+
+        echo "Running database optimization..."
+        python scripts/database_optimization.py
+
+    - name: Generate data quality report
+      run: |
+        python scripts/data_quality_report.py
+
+    - name: Upload logs
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: data-refresh-logs
+        path: |
+          data_refresh.log
+          scripts/data_refresh.log
+          data/quality_report.json
+
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "Data refresh failed - check logs for details"
+        # Add notification logic here (Slack, email, etc.)
+
+  deploy:
+    needs: data-refresh
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Deploy to production
+      run: |
+        echo "Deploying updated data to production..."
+        # Add deployment logic here

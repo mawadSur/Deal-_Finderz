@@ -1,0 +1,32 @@
+{
+  "total_properties": 200,
+  "chunks": 1,
+  "counties_covered": [
+    "Baker",
+    "Baldwin"
+  ],
+  "source": "County Tax Assessors",
+  "processed_date": "2025-01-12",
+  "sample_fields": [
+    "parcel_id",
+    "owner_name",
+    "owner_address",
+    "situs_address",
+    "situs_city",
+    "situs_state",
+    "situs_zip",
+    "land_use",
+    "zoning",
+    "acreage",
+    "sqft",
+    "year_built",
+    "assessed_value",
+    "taxable_value",
+    "tax_rate",
+    "annual_tax",
+    "county",
+    "source",
+    "source_file",
+    "data_source"
+  ]
+}

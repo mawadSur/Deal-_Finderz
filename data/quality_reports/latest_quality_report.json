@@ -1,0 +1,284 @@
+{
+  "timestamp": "2025-09-12T13:38:32.062351",
+  "data_sources": {
+    "parcels": {
+      "status": "no_data",
+      "message": "No parcels data found"
+    },
+    "addresses": {
+      "total_records": 5000,
+      "sample_size": 1000,
+      "address_completeness": {
+        "number": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "street": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "unit": {
+          "populated": 99,
+          "percentage": 0.099,
+          "status": "critical"
+        },
+        "city": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "district": {
+          "populated": 0,
+          "percentage": 0.0,
+          "status": "critical"
+        },
+        "region": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "postcode": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "lon": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "lat": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "hash": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "source": {
+          "populated": 1000,
+          "percentage": 1.0,
+          "status": "good"
+        }
+      },
+      "geographic_distribution": {
+        "unique_cities": 20,
+        "unique_zipcodes": 604,
+        "top_cities": [
+          [
+            "Newnan",
+            70
+          ],
+          [
+            "Warner Robins",
+            68
+          ],
+          [
+            "Columbus",
+            60
+          ],
+          [
+            "Roswell",
+            53
+          ],
+          [
+            "Atlanta",
+            52
+          ],
+          [
+            "Smyrna",
+            52
+          ],
+          [
+            "Rome",
+            51
+          ],
+          [
+            "Alpharetta",
+            51
+          ],
+          [
+            "Kennesaw",
+            50
+          ],
+          [
+            "Macon",
+            50
+          ]
+        ],
+        "top_zipcodes": [
+          [
+            "30847",
+            6
+          ],
+          [
+            "30599",
+            5
+          ],
+          [
+            "30768",
+            5
+          ],
+          [
+            "30144",
+            5
+          ],
+          [
+            "30366",
+            5
+          ],
+          [
+            "30196",
+            5
+          ],
+          [
+            "30189",
+            5
+          ],
+          [
+            "30284",
+            4
+          ],
+          [
+            "30177",
+            4
+          ],
+          [
+            "30509",
+            4
+          ]
+        ]
+      },
+      "format_consistency": {
+        "format_distribution": {
+          "standard": 1000,
+          "missing_street": 0,
+          "missing_city": 0,
+          "incomplete": 0
+        },
+        "consistency_rate": 1.0,
+        "status": "good"
+      }
+    },
+    "tax_assessors": {
+      "total_records": 200,
+      "sample_size": 200,
+      "counties_covered": 2,
+      "assessment_completeness": {
+        "parcel_id": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "owner_name": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "owner_address": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "situs_address": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "situs_city": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "situs_state": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "situs_zip": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "land_use": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "zoning": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "acreage": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "sqft": {
+          "populated": 134,
+          "percentage": 0.67,
+          "status": "critical"
+        },
+        "year_built": {
+          "populated": 134,
+          "percentage": 0.67,
+          "status": "critical"
+        },
+        "assessed_value": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "taxable_value": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "tax_rate": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "annual_tax": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "county": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "source": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "source_file": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        },
+        "data_source": {
+          "populated": 200,
+          "percentage": 1.0,
+          "status": "good"
+        }
+      },
+      "value_distribution": {
+        "status": "no_values",
+        "message": "No assessed values found"
+      }
+    }
+  },
+  "overall_quality_score": 0.3,
+  "recommendations": [
+    "Overall data quality needs improvement",
+    "Load GA GIO statewide parcels data"
+  ]
+}

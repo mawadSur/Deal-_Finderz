@@ -44,7 +44,8 @@ def get_mock_deals():
             'agent_name': 'Jennifer Martinez',
             'agent_phone': '(770) 555-0123',
             'agent_email': 'jennifer.martinez@kw.com',
-            'brokerage': 'Keller Williams Realty'
+            'brokerage': 'Keller Williams Realty',
+            'on_market': True
         },
         {
             'id': 2,
@@ -87,7 +88,8 @@ def get_mock_deals():
             'agent_name': 'Marcus Johnson',
             'agent_phone': '(404) 555-0456',
             'agent_email': 'marcus@atlrealty.com',
-            'brokerage': 'Atlanta Realty Partners'
+            'brokerage': 'Atlanta Realty Partners',
+            'on_market': True
         },
         {
             'id': 3,
@@ -129,7 +131,8 @@ def get_mock_deals():
             'agent_name': 'Lisa Chen',
             'agent_phone': '(678) 555-0789',
             'agent_email': 'lisa.chen@premierrealty.com',
-            'brokerage': 'Premier Realty Group'
+            'brokerage': 'Premier Realty Group',
+            'on_market': True
         },
         {
             'id': 4,
@@ -172,7 +175,8 @@ def get_mock_deals():
             'agent_name': 'David Rodriguez',
             'agent_phone': '(770) 555-0321',
             'agent_email': 'david.rodriguez@homerealty.com',
-            'brokerage': 'Home Realty Advisors'
+            'brokerage': 'Home Realty Advisors',
+            'on_market': True
         },
 
         # Commercial Properties
@@ -217,7 +221,8 @@ def get_mock_deals():
             'agent_name': 'Robert Commercial',
             'agent_phone': '(404) 555-0198',
             'agent_email': 'robert@commercialatlanta.com',
-            'brokerage': 'Commercial Atlanta Realty'
+            'brokerage': 'Commercial Atlanta Realty',
+            'on_market': True
         },
         {
             'id': 6,
@@ -261,7 +266,8 @@ def get_mock_deals():
             'agent_name': 'Jennifer Office',
             'agent_phone': '(770) 555-0654',
             'agent_email': 'jennifer@officerealtyatl.com',
-            'brokerage': 'Office Realty Atlanta'
+            'brokerage': 'Office Realty Atlanta',
+            'on_market': True
         },
 
         # Land and Agricultural
@@ -306,7 +312,8 @@ def get_mock_deals():
             'agent_name': 'Tom Agricultural',
             'agent_phone': '(678) 555-0432',
             'agent_email': 'tom@agriculturalga.com',
-            'brokerage': 'Agricultural Georgia Realty'
+            'brokerage': 'Agricultural Georgia Realty',
+            'on_market': True
         },
         {
             'id': 8,
@@ -350,7 +357,8 @@ def get_mock_deals():
             'agent_name': 'Susan Ranch',
             'agent_phone': '(770) 555-0876',
             'agent_email': 'susan@ranchgeorgia.com',
-            'brokerage': 'Ranch Georgia Realty'
+            'brokerage': 'Ranch Georgia Realty',
+            'on_market': True
         },
         {
             'id': 9,
@@ -392,7 +400,8 @@ def get_mock_deals():
             'agent_name': 'David Land',
             'agent_phone': '(404) 555-0543',
             'agent_email': 'david@landgeorgia.com',
-            'brokerage': 'Land Georgia Realty'
+            'brokerage': 'Land Georgia Realty',
+            'on_market': True
         }
     ]
 

@@ -1,0 +1,44 @@
+{
+  "ga_gio_parcels": {
+    "frequency": "weekly",
+    "script": "load_ga_gio_parcels.py",
+    "next_run": "2025-09-14 03:00:00",
+    "last_run": null,
+    "status": "pending"
+  },
+  "county_tax_assessors": {
+    "frequency": "daily",
+    "script": "load_county_tax_assessors.py",
+    "next_run": "2025-09-12 02:00:00",
+    "last_run": null,
+    "status": "pending"
+  },
+  "gsccca_deeds": {
+    "frequency": "daily",
+    "script": "load_gsccca_deeds.py",
+    "next_run": "2025-09-12 02:00:00",
+    "last_run": null,
+    "status": "pending"
+  },
+  "county_permits": {
+    "frequency": "daily",
+    "script": "load_county_permits.py",
+    "next_run": "2025-09-12 02:00:00",
+    "last_run": null,
+    "status": "pending"
+  },
+  "fema_flood": {
+    "frequency": "monthly",
+    "script": "load_fema_flood.py",
+    "next_run": "2025-10-01 04:00:00",
+    "last_run": null,
+    "status": "pending"
+  },
+  "ga_doe_schools": {
+    "frequency": "quarterly",
+    "script": "load_ga_doe_schools.py",
+    "next_run": "2025-10-01 05:00:00",
+    "last_run": null,
+    "status": "pending"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "overview": {
+    "state": "Georgia",
+    "total_population": 11000000,
+    "total_households": 4200000,
+    "total_parcels": 4800000,
+    "land_area_sq_miles": 59425,
+    "parcels_per_sq_mile": 80.77408498106857
+  },
+  "property_types": {
+    "residential": {
+      "count": 3200000,
+      "percentage": 66.66666666666666,
+      "avg_value": 350000
+    },
+    "commercial": {
+      "count": 280000,
+      "percentage": 5.833333333333333,
+      "avg_value": 875000.0
+    },
+    "vacant_land": {
+      "count": 1200000,
+      "percentage": 25.0,
+      "avg_value": 105000.0
+    },
+    "farm": {
+      "count": 100000,
+      "percentage": 2.083333333333333,
+      "avg_value": 420000.0
+    }
+  },
+  "market_activity": {
+    "annual_sales": 350000,
+    "sales_velocity": 0.07291666666666667,
+    "new_construction": 45000,
+    "foreclosures": 12000,
+    "short_sales": 8000
+  },
+  "data_quality": {
+    "coverage": "100% statewide",
+    "update_frequency": "Quarterly parcels, Annual tax rolls, Daily sales",
+    "last_complete_update": "2024-Q4",
+    "data_sources": 3
+  }
+}

@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 5000
+# Match Flask port in app/app.py
+EXPOSE 3000
 
 CMD ["python", "app.py"]
